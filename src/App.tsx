@@ -7,6 +7,7 @@ import { type HighlighterCore, getHighlighterCore } from 'shikiji/core';
 import { getWasmInlined } from 'shikiji/wasm';
 import Split from '@uiw/react-split';
 import JsonView from 'react18-json-view';
+import { GithubIcon } from 'lucide-react';
 
 import { DotJsAst } from './parser';
 import 'react18-json-view/src/style.css';
@@ -54,14 +55,24 @@ export const App = () => {
 
     return (
         <>
-            <div className="relative flex h-16 min-h-[64px] items-center gap-4 border px-6">
-                <a className="select-none text-2xl font-semibold tracking-tight transition-colors first:mt-0" href="https://alev.dev">
+            <div className=" flex h-16 min-h-[64px] items-center justify-between gap-4 border px-6">
+                <a
+                    className="select-none text-2xl font-semibold tracking-tight transition-colors first:mt-0"
+                    href="https://alev.dev"
+                    title="Go to the main website"
+                >
                     alev://
                 </a>
 
-                <div className="absolute inset-0 flex h-full w-full items-center justify-center">
-                    <h3 className="text-muted-foreground text-lg sm:text-xl">doT.js to React</h3>
-                </div>
+                <h3 className="text-muted-foreground text-lg sm:text-xl">doT.js to React</h3>
+
+                <a
+                    className="text-primary/80 hover:text-primary/90 active:text-primary flex items-center justify-center"
+                    href="https://github.com/SamuelAlev/dotjs-to-react"
+                    title="View source code on GitHub"
+                >
+                    <GithubIcon />
+                </a>
             </div>
 
             <Split className="h-full overflow-auto">
