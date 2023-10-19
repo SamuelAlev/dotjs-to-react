@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/eslintrc",
+    "root": true,
+    "extends": ["plugin:tailwindcss/recommended", "@salev/eslint-config"],
+    "plugins": ["tailwindcss"],
+    "rules": {
+        "tailwindcss/no-custom-classname": "off"
+    },
+    "settings": {
+        "tailwindcss": {
+            "callees": ["cn"],
+            "config": "./tailwind.config.js"
+        },
+        "next": {
+            "rootDir": ["./"]
+        }
+    },
+    "parserOptions": {
+        "project": ["./tsconfig.json", "./tsconfig.node.json"]
+    }
+}

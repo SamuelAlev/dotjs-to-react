@@ -1,0 +1,37 @@
+// From https://github.com/olado/doT/blob/master/doT.js#L12
+export const REGEXES = {
+    linebreak1: /(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,
+    linebreak2: /\r|\n|\t|\/\*[\S\s]*?\*\//g,
+    interpolate: /{{=([\S\s]+?)}}/g,
+    encode: /{{!([\S\s]+?)}}/g,
+    evaluate: /{{([\S\s]+?(}?)+)}}/g,
+    conditional: /{{\?(\?)?\s*([\S\s]*?)\s*}}/g,
+    iterate: /{{~\s*(?:}}|([\S\s]+?)\s*:\s*([\w$]+)\s*(?::\s*([\w$]+))?\s*}})/g,
+};
+
+export const MAPPED_ATTRIBUTES_TO_JSX: Record<string, string> = {
+    'accept-charset': 'acceptCharset',
+    accesskey: 'accessKey',
+    autocomplete: 'autoComplete',
+    autofocus: 'autoFocus',
+    autoplay: 'autoPlay',
+    charset: 'charSet',
+    class: 'className',
+    colspan: 'colSpan',
+    contenteditable: 'contentEditable',
+    datetime: 'dateTime',
+    enctype: 'encType',
+    for: 'htmlFor',
+    formaction: 'formAction',
+    hreflang: 'hrefLang',
+    'http-equiv': 'httpEquiv',
+    maxlength: 'maxLength',
+    novalidate: 'noValidate',
+    readonly: 'readOnly',
+    rowspan: 'rowSpan',
+    spellcheck: 'spellCheck',
+    srcdoc: 'srcDoc',
+    srcset: 'srcSet',
+    tabindex: 'tabIndex',
+    usemap: 'useMap',
+};
