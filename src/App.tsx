@@ -24,7 +24,7 @@ export const App = () => {
 
             if (!shikiRef.current) {
                 shikiRef.current = await getHighlighterCore({
-                    themes: [import('shikiji/themes/nord.mjs')],
+                    themes: [import('shikiji/themes/vitesse-light.mjs')],
                     langs: [() => import('shikiji/langs/tsx.mjs')],
                     loadWasm: getWasmInlined,
                 });
@@ -34,7 +34,7 @@ export const App = () => {
                 parser: 'babel-ts',
                 plugins: [babelPlugin, tsPlugin, estreePlugin],
             });
-            const code = shikiRef.current.codeToHtml(prettifiedCode, { lang: 'tsx', theme: 'nord' });
+            const code = shikiRef.current.codeToHtml(prettifiedCode, { lang: 'tsx', theme: 'vitesse-light' });
             setTsxContent(code);
         };
 
