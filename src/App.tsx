@@ -21,8 +21,6 @@ export const App = () => {
 
     useEffect(() => {
         const generatePreview = async () => {
-            setIsError(false);
-
             if (!content) {
                 return;
             }
