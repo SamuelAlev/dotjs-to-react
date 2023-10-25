@@ -10,7 +10,7 @@
         "test:unit": "vitest run",
         "test:unit:watch": "vitest",
         "test:integration": "playwright test",
-        "preview": "vite preview"
+        "preview": "vite preview --port 4173"
     },
     "dependencies": {
         "@fontsource/manrope": "^5.0.15",

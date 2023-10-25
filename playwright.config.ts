@@ -8,14 +8,14 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        baseURL: 'http://127.0.0.1:5173',
+        baseURL: process.env.CI ? 'http://127.0.0.1:4173' : 'http://127.0.0.1:5173',
         trace: 'on-first-retry',
     },
 
     projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
     webServer: {
-        command: 'pnpm dev',
-        url: 'http://127.0.0.1:5173/',
+        command: 'pnpm preview',
+        url: process.env.CI ? 'http://127.0.0.1:4173/' : 'http://127.0.0.1:5173/',
         timeout: 10 * 1000,
         reuseExistingServer: !process.env.CI,
     },
