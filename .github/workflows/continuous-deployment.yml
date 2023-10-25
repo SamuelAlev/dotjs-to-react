@@ -16,7 +16,6 @@ on:
 env:
     NODE_VERSION: 20
     DOMAIN: dotjs-to-react.alev.dev
-    DEBUG: pw:webserver
 
 jobs:
     lint:
