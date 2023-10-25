@@ -68,6 +68,7 @@ export const App = () => {
                     className="text-primary/80 hover:text-primary/90 active:text-primary flex items-center justify-center"
                     href="https://github.com/SamuelAlev/dotjs-to-react"
                     title="View source code on GitHub"
+                    data-testid="github-repo-link"
                 >
                     <GithubIcon />
                 </a>
@@ -79,6 +80,7 @@ export const App = () => {
                         className="flex w-full p-4 font-mono focus-within:outline-none"
                         placeholder="Enter the doT code"
                         defaultValue={content}
+                        data-testid="dotjs-input"
                         onInput={(event) => {
                             setContent((event.target as HTMLTextAreaElement).value);
                             localStorage.setItem('content', (event.target as HTMLTextAreaElement).value);
@@ -97,12 +99,15 @@ export const App = () => {
                 </div>
 
                 <Split mode="vertical" className="w-[60%]">
-                    <JsonView className="flex h-[50%] w-full overflow-auto p-4" src={content ? astContent : {}} enableClipboard={false} />
+                    <div data-testid="ast-output" className="flex h-[50%] w-full overflow-auto p-4">
+                        <JsonView data-testid="ast-output" src={content ? astContent : {}} enableClipboard={false} />
+                    </div>
 
                     {tsxContent ? (
                         <div
                             className="flex h-[50%] w-full [&>pre]:h-full [&>pre]:w-full [&>pre]:overflow-auto [&>pre]:p-4"
                             dangerouslySetInnerHTML={{ __html: tsxContent }}
+                            data-testid="tsx-output"
                         ></div>
                     ) : (
                         <textarea

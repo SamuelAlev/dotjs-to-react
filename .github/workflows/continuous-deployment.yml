@@ -9,13 +9,16 @@ on:
     push:
         branches:
             - main
+    pull_request:
+        branches:
+            - main
 
 env:
     NODE_VERSION: 20
     DOMAIN: dotjs-to-react.alev.dev
 
 jobs:
-    build-and-deploy:
+    lint:
         runs-on: ubuntu-latest
         timeout-minutes: 10
 
@@ -41,8 +44,92 @@ jobs:
             - name: Lint code
               run: pnpm lint
 
+    test-unit:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+
+        steps:
+            - name: Checkout default branch
+              uses: actions/checkout@v4
+
+            - name: Use pnpm
+              uses: pnpm/action-setup@v2.4.0
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: Use Node ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
             - name: Test code
-              run: pnpm test
+              run: pnpm test:unit
+
+    test-integration:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+
+        steps:
+            - name: Checkout default branch
+              uses: actions/checkout@v4
+
+            - name: Use pnpm
+              uses: pnpm/action-setup@v2.4.0
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: Use Node ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Install Playwright Browsers
+              run: pnpm exec playwright install --with-deps
+
+            - name: Test integration
+              run: pnpm test:integration
+
+            - name: Upload reports
+              uses: actions/upload-artifact@v3
+              if: always()
+              with:
+                  name: playwright-report
+                  path: playwright-report/
+                  retention-days: 30
+
+    deploy:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        needs: [lint, test-unit, test-integration]
+
+        steps:
+            - name: Checkout default branch
+              uses: actions/checkout@v4
+
+            - name: Use pnpm
+              uses: pnpm/action-setup@v2.4.0
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: Use Node ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
             - name: Build
               run: pnpm build

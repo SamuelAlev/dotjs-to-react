@@ -7,8 +7,9 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "lint": "eslint .",
-        "test": "vitest run",
-        "test:watch": "vitest",
+        "test:unit": "vitest run",
+        "test:unit:watch": "vitest",
+        "test:integration": "playwright test",
         "preview": "vite preview"
     },
     "dependencies": {
@@ -23,7 +24,9 @@
     "devDependencies": {
         "@babel/parser": "^7.23.0",
         "@babel/runtime": "^7.23.2",
+        "@playwright/test": "^1.39.0",
         "@salev/eslint-config": "^0.0.14",
+        "@types/node": "^20.8.8",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
         "@vitejs/plugin-react-swc": "^3.3.2",
