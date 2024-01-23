@@ -9,7 +9,7 @@
         {
             "matchManagers": ["github-actions"],
             "groupName": "github-actions-dependencies",
-            "schedule": ["every month on the first day of the month"]
+            "schedule": ["on the first day of the month"]
         },
         {
             "matchPackagePatterns": ["node"],
