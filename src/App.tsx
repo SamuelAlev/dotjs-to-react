@@ -4,7 +4,7 @@ import babelPlugin from 'prettier/plugins/babel';
 import tsPlugin from 'prettier/plugins/typescript';
 import estreePlugin from 'prettier/plugins/estree';
 import { type HighlighterCore, getHighlighterCore } from 'shikiji/core';
-import { getWasmInlined } from 'shikiji/wasm';
+import getWasmInlined from 'shikiji/wasm';
 import Split from '@uiw/react-split';
 import JsonView from 'react18-json-view';
 import { GithubIcon } from 'lucide-react';
