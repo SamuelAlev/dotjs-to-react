@@ -13,30 +13,30 @@
         "preview": "vite preview --port 4173"
     },
     "dependencies": {
-        "@fontsource/manrope": "^5.0.15",
-        "@uiw/react-split": "^5.9.1",
+        "@fontsource/manrope": "^5.0.18",
+        "@uiw/react-split": "^5.9.3",
         "lucide-react": "^0.314.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react18-json-view": "^0.2.7-canary.0",
+        "react18-json-view": "^0.2.7",
         "shikiji": "^0.10.0"
     },
     "devDependencies": {
-        "@babel/parser": "^7.23.0",
-        "@babel/runtime": "^7.23.2",
-        "@playwright/test": "^1.39.0",
+        "@babel/parser": "^7.23.6",
+        "@babel/runtime": "^7.23.8",
+        "@playwright/test": "^1.41.1",
         "@salev/eslint-config": "^0.0.14",
-        "@types/node": "^20.8.8",
-        "@types/react": "^18.2.15",
-        "@types/react-dom": "^18.2.7",
-        "@vitejs/plugin-react-swc": "^3.3.2",
-        "autoprefixer": "^10.4.16",
-        "eslint": "^8.45.0",
-        "eslint-plugin-tailwindcss": "^3.13.0",
-        "prettier": "^3.0.3",
-        "tailwindcss": "^3.3.3",
-        "typescript": "^5.0.2",
-        "vite": "^4.4.5",
-        "vitest": "^1.0.0"
+        "@types/node": "^20.11.5",
+        "@types/react": "^18.2.48",
+        "@types/react-dom": "^18.2.18",
+        "@vitejs/plugin-react-swc": "^3.5.0",
+        "autoprefixer": "^10.4.17",
+        "eslint": "^8.56.0",
+        "eslint-plugin-tailwindcss": "^3.14.0",
+        "prettier": "^3.2.4",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.12",
+        "vitest": "^1.2.1"
     }
 }

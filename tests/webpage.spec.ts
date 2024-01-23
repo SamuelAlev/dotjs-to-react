@@ -17,9 +17,7 @@ const EXPECTED_DIVIDER_CODE_TSX = `import parseHtml from "html-react-parser";
 export default function tpl(it: any) {
   return (
     <div
-      className={\`co-settings__divider co-settings__divider--\${it.size} \${
-        it.hasNegativeMargin ? "co-settings__divider--negative-margin" : ""
-      }\`}
+      className={\`co-settings__divider co-settings__divider--\${it.size} \${it.hasNegativeMargin ? "co-settings__divider--negative-margin" : ""}\`}
     >
       {it.size === "large" && it.title ? (
         <div className="co-settings__divider-title">{it.title}</div>
