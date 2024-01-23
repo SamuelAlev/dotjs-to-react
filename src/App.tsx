@@ -90,7 +90,7 @@ export const App = () => {
                     {isError ? (
                         <div className="bg-background absolute right-4 top-4 flex gap-2 rounded-lg border px-2 py-1">
                             <div className="flex items-center justify-center">
-                                <div className="h-2 min-h-[8px] w-2 min-w-[8px] rounded-full bg-red-500"></div>
+                                <div className="size-2 min-h-[8px] min-w-[8px] rounded-full bg-red-500"></div>
                             </div>
 
                             <span>Invalid doT.js template</span>
@@ -105,7 +105,7 @@ export const App = () => {
 
                     {tsxContent ? (
                         <div
-                            className="flex h-[50%] w-full [&>pre]:h-full [&>pre]:w-full [&>pre]:overflow-auto [&>pre]:p-4"
+                            className="flex h-[50%] w-full [&>pre]:size-full [&>pre]:overflow-auto [&>pre]:p-4"
                             dangerouslySetInnerHTML={{ __html: tsxContent }}
                             data-testid="tsx-output"
                         ></div>
