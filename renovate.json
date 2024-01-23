@@ -32,11 +32,13 @@
         {
             "matchUpdateTypes": ["minor", "patch"],
             "matchCurrentVersion": "!/^0/",
+            "groupName": "minor and patches (automerge)",
             "automerge": true,
             "schedule": ["on Monday"]
         },
         {
             "matchUpdateTypes": ["minor", "patch"],
+            "groupName": "minor and patches",
             "schedule": ["on Monday"]
         }
     ]
