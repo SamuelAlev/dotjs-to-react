@@ -949,20 +949,20 @@ export class DotJsAst {
                 const childrenExpression = node.children?.every((child) => child.type === 'text')
                     ? `"${children.join('')}"`
                     : children.length > 1
-                    ? `<>${children.join('')}</>`
-                    : // eslint-disable-next-line unicorn/no-nested-ternary
-                    children.length === 1
-                    ? `${children.join('')}`
-                    : 'null';
+                      ? `<>${children.join('')}</>`
+                      : // eslint-disable-next-line unicorn/no-nested-ternary
+                        children.length === 1
+                        ? `${children.join('')}`
+                        : 'null';
 
                 const alternateExpression = node.alternate?.every((child) => child.type === 'text')
                     ? `"${alternate.join('')}"`
                     : alternate.length > 1
-                    ? `<>${alternate.join('')}</>`
-                    : // eslint-disable-next-line unicorn/no-nested-ternary
-                    alternate.length === 1
-                    ? `${alternate.join('')}`
-                    : 'null';
+                      ? `<>${alternate.join('')}</>`
+                      : // eslint-disable-next-line unicorn/no-nested-ternary
+                        alternate.length === 1
+                        ? `${alternate.join('')}`
+                        : 'null';
 
                 const expression = `${node.test} ? ${childrenExpression} : ${alternateExpression}`;
 
