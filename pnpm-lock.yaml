@@ -12,8 +12,8 @@ dependencies:
     specifier: ^5.9.3
     version: 5.9.3(react-dom@18.2.0)(react@18.2.0)
   lucide-react:
-    specifier: ^0.354.0
-    version: 0.354.0(react@18.2.0)
+    specifier: ^0.356.0
+    version: 0.356.0(react@18.2.0)
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -60,7 +60,7 @@ devDependencies:
     version: 8.57.0
   eslint-plugin-tailwindcss:
     specifier: ^3.14.0
-    version: 3.14.3(tailwindcss@3.4.1)
+    version: 3.15.0(tailwindcss@3.4.1)
   prettier:
     specifier: ^3.2.4
     version: 3.2.5
@@ -616,7 +616,7 @@ packages:
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
       eslint-plugin-react: 7.33.2(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.57.0)
-      eslint-plugin-tailwindcss: 3.14.3(tailwindcss@3.4.1)
+      eslint-plugin-tailwindcss: 3.15.0(tailwindcss@3.4.1)
       eslint-plugin-unicorn: 48.0.1(eslint@8.57.0)
       eslint-plugin-yml: 1.10.0(eslint@8.57.0)
       jsonc-eslint-parser: 2.3.0
@@ -2001,8 +2001,8 @@ packages:
       string.prototype.matchall: 4.0.10
     dev: true
 
-  /eslint-plugin-tailwindcss@3.14.3(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-1MKT8CrVuqVJleHxb7ICHsF2QwO0G+VJ28athTtlcOkccp0qmwK7nCUa1C9paCZ+VVgQU4fonsjLz/wUxoMHJQ==}
+  /eslint-plugin-tailwindcss@3.15.0(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-mRs8OGJMxkCl8cD0wGjr9NbcRYJCN3D1TfgmIGb1L+3opqYyTT1jjVau1s6SUdVJqci3EfbxG60TJQtgqfEtTw==}
     engines: {node: '>=12.13.0'}
     peerDependencies:
       tailwindcss: ^3.4.0
@@ -2964,8 +2964,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /lucide-react@0.354.0(react@18.2.0):
-    resolution: {integrity: sha512-qI0x/hhcuHieaUUxFejesm5T/ditszQ2x1gUkqKnTMZRAOdxT2nGzbOFYrhc0wRjuA2MN1o5JCrcRPYcHH3l8A==}
+  /lucide-react@0.356.0(react@18.2.0):
+    resolution: {integrity: sha512-MDInjLrmZToccH2UxEshntujBlFwtOofGB22FN/eg39FfGVYV1TT1eMIv2j4rdaTJBpYjUuX7fEo9pwYkNFgwA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
