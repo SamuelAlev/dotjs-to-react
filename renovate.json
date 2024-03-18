@@ -9,11 +9,13 @@
         {
             "matchManagers": ["github-actions"],
             "groupName": "github-actions-dependencies",
+            "automerge": true,
             "schedule": ["on the first day of the month"]
         },
         {
             "matchPackagePatterns": ["node"],
             "groupName": "node",
+            "automerge": true,
             "schedule": ["on the first day of the month"]
         },
         {
@@ -31,14 +33,8 @@
         },
         {
             "matchUpdateTypes": ["minor", "patch"],
-            "matchCurrentVersion": "!/^0/",
-            "groupName": "minor and patches (automerge)",
-            "automerge": true,
-            "schedule": ["on Monday"]
-        },
-        {
-            "matchUpdateTypes": ["minor", "patch"],
             "groupName": "minor and patches",
+            "automerge": true,
             "schedule": ["on Monday"]
         }
     ]
