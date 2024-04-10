@@ -90,11 +90,7 @@ type EventHandler<EventName extends ParserEvent> = {
     dotEncoded: (value: string) => void;
     dotInterpolated: (value: string) => void;
     dotEvaluated: (value: string) => void;
-    openDotIterator: (
-        iteratedVariableName: string,
-        currentIterationVariableName: string,
-        currentIterationIndexVariableName: string,
-    ) => void;
+    openDotIterator: (iteratedVariableName: string, currentIterationVariableName: string, currentIterationIndexVariableName: string) => void;
     closeDotIterator: () => void;
     openDotConditional: (test: string) => void;
     closeDotConditional: () => void;
@@ -179,9 +175,9 @@ class Parser {
                 const openTagEndPositionSlash = this.text.indexOf('/', position + 1);
                 const openTagEndPositionCaret = this.text.indexOf('>', position + 1);
                 const openTagEnd = Math.min(
-                    openTagEndPositionSpace !== -1 ? openTagEndPositionSpace : Infinity,
-                    openTagEndPositionCaret !== -1 ? openTagEndPositionCaret : Infinity,
-                    openTagEndPositionSlash !== -1 ? openTagEndPositionSlash : Infinity,
+                    openTagEndPositionSpace !== -1 ? openTagEndPositionSpace : Number.POSITIVE_INFINITY,
+                    openTagEndPositionCaret !== -1 ? openTagEndPositionCaret : Number.POSITIVE_INFINITY,
+                    openTagEndPositionSlash !== -1 ? openTagEndPositionSlash : Number.POSITIVE_INFINITY,
                 );
 
                 const openTag = this.text.slice(position + 1, openTagEnd);
@@ -192,12 +188,7 @@ class Parser {
                 this.emitStartReadingAttributes();
 
                 position = openTagEnd;
-            } else if (
-                isReadingAttributes &&
-                !inAttributeValueReadingMode &&
-                this.text[position] === '/' &&
-                this.text[position + 1] === '>'
-            ) {
+            } else if (isReadingAttributes && !inAttributeValueReadingMode && this.text[position] === '/' && this.text[position + 1] === '>') {
                 // Close Selfclosing Tag (<img [...] />)
                 //                                   ^^ this is skipped and emit closeTag event
                 const tagNameStart = this.text.lastIndexOf('<', position - 1);
@@ -205,8 +196,8 @@ class Parser {
                 const tagNameEndSpacePosition = this.text.indexOf(' ', tagNameStart + 1);
                 const tagNameEndSlashPosition = this.text.indexOf('/', tagNameStart + 1);
                 const tagNameEnd = Math.min(
-                    tagNameEndSpacePosition !== -1 ? tagNameEndSpacePosition : Infinity,
-                    tagNameEndSlashPosition !== -1 ? tagNameEndSlashPosition : Infinity,
+                    tagNameEndSpacePosition !== -1 ? tagNameEndSpacePosition : Number.POSITIVE_INFINITY,
+                    tagNameEndSlashPosition !== -1 ? tagNameEndSlashPosition : Number.POSITIVE_INFINITY,
                 );
 
                 isReadingAttributes = false;
@@ -262,13 +253,7 @@ class Parser {
 
                 // Skip the full expression (including the closing `}}`)
                 position = expressionEnd + 2;
-            } else if (
-                isReadingAttributes &&
-                !inAttributeValueReadingMode &&
-                this.text[position] !== ' ' &&
-                this.text[position + 1] !== '/' &&
-                this.text[position + 1] !== '{'
-            ) {
+            } else if (isReadingAttributes && !inAttributeValueReadingMode && this.text[position] !== ' ' && this.text[position + 1] !== '/' && this.text[position + 1] !== '{') {
                 // Attribute Open or self closing attribute (<div class="foo" controls>)
                 //                                                ^^^^^^^     ^^^^^^^^
                 //                                    these are skipped and emit openAttribute event,
@@ -284,10 +269,7 @@ class Parser {
                 inAttributeValueReadingMode = true;
                 this.emitOpenAttribute(attributeName);
 
-                if (
-                    !isFollowedByAttributeValue &&
-                    (this.text[attributeNameEndPosition] === ' ' || this.text[attributeNameEndPosition] === '>')
-                ) {
+                if (!isFollowedByAttributeValue && (this.text[attributeNameEndPosition] === ' ' || this.text[attributeNameEndPosition] === '>')) {
                     inAttributeValueReadingMode = false;
                     this.emitCloseAttribute();
                 }
@@ -305,9 +287,9 @@ class Parser {
                 const textEndPositionTag = this.text.indexOf('<', position + 1);
                 const textEndPositionDoubleQuote = this.text.indexOf('"', position + 1);
                 const textEnd = Math.min(
-                    textEndPositionDot !== -1 ? textEndPositionDot : Infinity,
-                    textEndPositionTag !== -1 ? textEndPositionTag : Infinity,
-                    textEndPositionDoubleQuote !== -1 && inAttributeValueReadingMode ? textEndPositionDoubleQuote : Infinity,
+                    textEndPositionDot !== -1 ? textEndPositionDot : Number.POSITIVE_INFINITY,
+                    textEndPositionTag !== -1 ? textEndPositionTag : Number.POSITIVE_INFINITY,
+                    textEndPositionDoubleQuote !== -1 && inAttributeValueReadingMode ? textEndPositionDoubleQuote : Number.POSITIVE_INFINITY,
                 );
 
                 const text = this.text.slice(position, textEnd);
@@ -385,11 +367,7 @@ class Parser {
         this.onCloseAttribute?.();
     }
 
-    private emitOpenDotIterator(
-        iteratedVariableName: string,
-        currentIterationVariableName: string,
-        currentIterationIndexVariableName: string,
-    ) {
+    private emitOpenDotIterator(iteratedVariableName: string, currentIterationVariableName: string, currentIterationIndexVariableName: string) {
         this.onOpenDotIterator?.(iteratedVariableName, currentIterationVariableName, currentIterationIndexVariableName);
     }
 
@@ -426,6 +404,7 @@ class Parser {
     }
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: We want a class
 export class DotJsAst {
     public static parse(template: string): Root {
         const astRoot: Root = {
@@ -708,34 +687,28 @@ export class DotJsAst {
         const imports: Set<string> = new Set();
         const beforeFunctionReturn: string[] = [];
 
-        function traverse(
-            node: Root | Children[0],
-            parentNode?: Root | Children[0],
-            options: { inDotAttribute: boolean } = { inDotAttribute: false },
-        ): string {
-            const parentNodeChildren =
-                parentNode && 'children' in parentNode
-                    ? parentNode.children.filter((child) => child.type !== 'text' || child.value.trim() !== '')
-                    : [];
+        function traverse(node: Root | Children[0], parentNode?: Root | Children[0], options: { inDotAttribute: boolean } = { inDotAttribute: false }): string {
+            const parentNodeChildren = parentNode && 'children' in parentNode ? parentNode.children.filter((child) => child.type !== 'text' || child.value.trim() !== '') : [];
 
             const parentNodeAlternate =
-                parentNode && 'alternate' in parentNode
-                    ? parentNode.alternate?.filter((child) => child.type !== 'text' || child.value.trim() !== '') ?? []
-                    : [];
+                parentNode && 'alternate' in parentNode ? parentNode.alternate?.filter((child) => child.type !== 'text' || child.value.trim() !== '') ?? [] : [];
 
             if (node.type === 'root') {
-                const result = node.children
-                    .filter((child) => child.type !== 'text' || child.value.trim() !== '')
-                    .map((child) => traverse(child, node));
+                const result = node.children.filter((child) => child.type !== 'text' || child.value.trim() !== '').map((child) => traverse(child, node));
 
                 // If there are multiple children or if there are dot expressions, wrap them in a fragment
                 if (result.length > 1) {
                     return `<>${result.join('')}</>`;
                 }
                 return result[0];
-            } else if (node.type === 'element') {
+            }
+            if (node.type === 'element') {
                 const mappedAttributes = node.attributes
-                    .map((child) => traverse(child, node, { inDotAttribute: child.type.includes('dot') }))
+                    .map((child) =>
+                        traverse(child, node, {
+                            inDotAttribute: child.type.includes('dot'),
+                        }),
+                    )
                     .join(' ');
 
                 const children = node.children
@@ -744,7 +717,8 @@ export class DotJsAst {
                     .join('');
 
                 return `<${node.tagName}${mappedAttributes ? ` ${mappedAttributes}` : ''}>${children}</${node.tagName}>`;
-            } else if (node.type === 'attribute') {
+            }
+            if (node.type === 'attribute') {
                 const attributeName = MAPPED_ATTRIBUTES_TO_JSX[node.name] ?? node.name;
 
                 // Single attribute without values: controls, checked, disabled, etc.
@@ -769,7 +743,12 @@ export class DotJsAst {
                                 .replaceAll(/-./g, (minusAndLetter) => minusAndLetter[1].toUpperCase());
                             const value = style.substring(colonPosition + 1).trim();
 
-                            return value ? { ...styleObject, [camelCaseProperty]: value } : styleObject;
+                            if (value) {
+                                // @ts-expect-error - We know that the property is a string
+                                styleObject[camelCaseProperty] = value;
+                            }
+
+                            return styleObject;
                         }, {});
                     };
 
@@ -817,20 +796,14 @@ export class DotJsAst {
                                 // Represent (item, index)
                                 //            ^^^^^^^^^^^ these in the iterator expression
                                 const iteratorParametersExpression = `${attributeChild.currentIterationVariableName}${
-                                    attributeChild.currentIterationIndexVariableName
-                                        ? `, ${attributeChild.currentIterationIndexVariableName}`
-                                        : ''
+                                    attributeChild.currentIterationIndexVariableName ? `, ${attributeChild.currentIterationIndexVariableName}` : ''
                                 }`;
 
-                                return `\${${
-                                    attributeChild.iteratedVariableName
-                                }?.map((${iteratorParametersExpression}) => \`${iteratorChildren.join('')}\`)}`;
+                                return `\${${attributeChild.iteratedVariableName}?.map((${iteratorParametersExpression}) => \`${iteratorChildren.join('')}\`)}`;
                             }
 
                             case 'dotConditional': {
-                                return `\${${attributeChild.test} ? \`${
-                                    getValuesFromChildren(attributeChild.children).join('') || ''
-                                }\` : \`${
+                                return `\${${attributeChild.test} ? \`${getValuesFromChildren(attributeChild.children).join('') || ''}\` : \`${
                                     attributeChild.alternate ? getValuesFromChildren(attributeChild.alternate).join('') || '' : ''
                                 }\`}`;
                             }
@@ -847,9 +820,7 @@ export class DotJsAst {
                     // If the attribute has only one dot expression, we can just use it without wrapping it in backtick
                     if (
                         node.children.length === 1 &&
-                        (node.children[0].type === 'dotEncoded' ||
-                            node.children[0].type === 'dotInterpolated' ||
-                            node.children[0].type === 'dotConditional')
+                        (node.children[0].type === 'dotEncoded' || node.children[0].type === 'dotInterpolated' || node.children[0].type === 'dotConditional')
                     ) {
                         return `${wrappedAttributeNameIfNecessary}: ${traverse(node.children[0], node, {
                             inDotAttribute: true,
@@ -857,10 +828,12 @@ export class DotJsAst {
                     }
 
                     return `${wrappedAttributeNameIfNecessary}: "${node.children.map((child) => traverse(child, node)).join(' ')}"`;
-                } else if (node.children.every((child) => child.type === 'text')) {
+                }
+                if (node.children.every((child) => child.type === 'text')) {
                     // If the attribute has only text children, we can just join them
                     return `${attributeName}="${(node.children as Text[]).map((child) => child.value).join(' ')}"`;
-                } else if (
+                }
+                if (
                     // If the attribute has only one dot expression, we can just use it without wrapping it in backtick
                     node.children.length === 1 &&
                     (node.children[0].type === 'dotEncoded' || node.children[0].type === 'dotInterpolated')
@@ -870,36 +843,37 @@ export class DotJsAst {
                 }
 
                 return `${attributeName}={\`${getValuesFromChildren(node.children).join('')}\`}`;
-            } else if (node.type === 'text') {
+            }
+            if (node.type === 'text') {
                 return node.value;
-            } else if (node.type === 'dotEncoded') {
+            }
+            if (node.type === 'dotEncoded') {
                 const expression = node.value;
 
                 if (parentNode?.type === 'root' && parentNode?.children.length === 1) {
                     // At root level, we don't need to wrap with Fragment or mustaches if only child
                     return expression;
-                } else if (
-                    options.inDotAttribute &&
-                    parentNode?.type === 'attribute' &&
-                    parentNodeChildren.length === 1 &&
-                    parentNodeChildren.includes(node)
-                ) {
+                }
+                if (options.inDotAttribute && parentNode?.type === 'attribute' && parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) {
                     return expression;
-                } else if (parentNode?.type === 'element') {
+                }
+                if (parentNode?.type === 'element') {
                     return `{${expression}}`;
-                } else if (
+                }
+                if (
                     parentNode?.type === 'dotConditional' &&
-                    ((parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) ||
-                        (parentNodeAlternate.length === 1 && parentNodeAlternate.includes(node)))
+                    ((parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) || (parentNodeAlternate.length === 1 && parentNodeAlternate.includes(node)))
                 ) {
                     return expression;
-                } else if (parentNodeChildren.length === 1) {
+                }
+                if (parentNodeChildren.length === 1) {
                     // In case of single child, we provide a cleaner output
                     return `{${expression}}`;
                 }
 
                 return `<>{${expression}}</>`;
-            } else if (node.type === 'dotInterpolated') {
+            }
+            if (node.type === 'dotInterpolated') {
                 imports.add('import parseHtml from "html-react-parser";');
 
                 if (node.value.includes('it.tpl.render')) {
@@ -911,91 +885,84 @@ export class DotJsAst {
                 if (parentNode?.type === 'root' && parentNodeChildren.length === 1) {
                     // At root level, we don't need to wrap with Fragment or mustaches if only child
                     return expression;
-                } else if (
-                    options.inDotAttribute &&
-                    parentNode?.type === 'attribute' &&
-                    parentNodeChildren.length === 1 &&
-                    parentNodeChildren.includes(node)
-                ) {
+                }
+                if (options.inDotAttribute && parentNode?.type === 'attribute' && parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) {
                     return expression;
-                } else if (parentNode?.type === 'element') {
+                }
+                if (parentNode?.type === 'element') {
                     return `{${expression}}`;
-                } else if (parentNode?.type === 'dotIterator' && parentNodeChildren.length === 1) {
+                }
+                if (parentNode?.type === 'dotIterator' && parentNodeChildren.length === 1) {
                     return expression;
-                } else if (
+                }
+                if (
                     parentNode?.type === 'dotConditional' &&
-                    ((parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) ||
-                        (parentNodeAlternate.length === 1 && parentNodeAlternate.includes(node)))
+                    ((parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) || (parentNodeAlternate.length === 1 && parentNodeAlternate.includes(node)))
                 ) {
                     return expression;
-                } else if (parentNodeChildren.length === 1) {
+                }
+                if (parentNodeChildren.length === 1) {
                     // In case of single child, we provide a cleaner output
                     return `{${expression}}`;
                 }
 
                 return `<>{${expression}}</>`;
-            } else if (node.type === 'dotConditional') {
+            }
+            if (node.type === 'dotConditional') {
                 const inDotAttribute = (parentNode?.type === 'element' && parentNode.attributes.includes(node)) || options.inDotAttribute;
 
-                const children = node.children
-                    .filter((child) => child.type !== 'text' || child.value.trim() !== '')
-                    .map((child) => traverse(child, node, { inDotAttribute }));
+                const children = node.children.filter((child) => child.type !== 'text' || child.value.trim() !== '').map((child) => traverse(child, node, { inDotAttribute }));
 
-                const alternate =
-                    node.alternate
-                        ?.filter((child) => child.type !== 'text' || child.value.trim() !== '')
-                        .map((child) => traverse(child, node)) ?? [];
+                const alternate = node.alternate?.filter((child) => child.type !== 'text' || child.value.trim() !== '').map((child) => traverse(child, node)) ?? [];
 
                 const childrenExpression = node.children?.every((child) => child.type === 'text')
                     ? `"${children.join('')}"`
                     : children.length > 1
                       ? `<>${children.join('')}</>`
                       : // eslint-disable-next-line unicorn/no-nested-ternary
-                        children.length === 1
-                        ? `${children.join('')}`
-                        : 'null';
+                          children.length === 1
+                          ? `${children.join('')}`
+                          : 'null';
 
                 const alternateExpression = node.alternate?.every((child) => child.type === 'text')
                     ? `"${alternate.join('')}"`
                     : alternate.length > 1
                       ? `<>${alternate.join('')}</>`
                       : // eslint-disable-next-line unicorn/no-nested-ternary
-                        alternate.length === 1
-                        ? `${alternate.join('')}`
-                        : 'null';
+                          alternate.length === 1
+                          ? `${alternate.join('')}`
+                          : 'null';
 
                 const expression = `${node.test} ? ${childrenExpression} : ${alternateExpression}`;
 
                 if (parentNode?.type === 'root' && parentNodeChildren.length === 1) {
                     // At root level, we don't need to wrap with Fragment or mustaches if only child
                     return expression;
-                } else if (
-                    inDotAttribute &&
-                    parentNode?.type === 'attribute' &&
-                    parentNodeChildren.length === 1 &&
-                    parentNodeChildren.includes(node)
-                ) {
+                }
+                if (inDotAttribute && parentNode?.type === 'attribute' && parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) {
                     return expression;
-                } else if (inDotAttribute) {
+                }
+                if (inDotAttribute) {
                     return `{...(${node.test} ? {${children.join(', ')}} : {${alternate.join(', ')}})}`;
-                } else if (parentNode?.type === 'element') {
+                }
+                if (parentNode?.type === 'element') {
                     return `{${expression}}`;
-                } else if (
-                    (parentNode?.type === 'dotConditional' ||
-                        parentNode?.type === 'dotInterpolated' ||
-                        parentNode?.type === 'dotIterator') &&
-                    ((parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) ||
-                        (parentNodeAlternate.length === 1 && parentNodeAlternate.includes(node)))
+                }
+                if (
+                    (parentNode?.type === 'dotConditional' || parentNode?.type === 'dotInterpolated' || parentNode?.type === 'dotIterator') &&
+                    ((parentNodeChildren.length === 1 && parentNodeChildren.includes(node)) || (parentNodeAlternate.length === 1 && parentNodeAlternate.includes(node)))
                 ) {
                     // Nested conditional don't need wrapping
                     return expression;
-                } else if (parentNodeChildren.length === 1) {
+                }
+                if (parentNodeChildren.length === 1) {
                     // In case of single child, we provide a cleaner output
                     return `{${expression}}`;
                 }
 
                 return `<>{${expression}}</>`;
-            } else if (node.type === 'dotIterator') {
+            }
+            if (node.type === 'dotIterator') {
                 const children = node.children
                     .filter((child) => child.type !== 'text' || child.value.trim() !== '')
                     .map((child) => traverse(child, node))
@@ -1007,21 +974,26 @@ export class DotJsAst {
 
                 if (parentNode?.type === 'element' && parentNode.attributes.includes(node)) {
                     throw new Error('Dot iterator in attributes is not supported.');
-                } else if (parentNode?.type === 'element') {
+                }
+                if (parentNode?.type === 'element') {
                     return `{${expression}}`;
-                } else if (parentNode?.type === 'root' && parentNodeChildren.length === 1) {
+                }
+                if (parentNode?.type === 'root' && parentNodeChildren.length === 1) {
                     // At root level, if only child, we need to wrap with Fragment
                     return `<>{${expression}}</>`;
-                } else if (parentNodeChildren.length === 1) {
+                }
+                if (parentNodeChildren.length === 1) {
                     // In case of single child, we provide a cleaner output
                     return `{${expression}}`;
                 }
 
                 return `<>{${expression}}</>`;
-            } else if (node.type === 'comment') {
+            }
+            if (node.type === 'comment') {
                 // TODO: add support for comments?
                 return '';
-            } else if (node.type === 'dotEvaluated') {
+            }
+            if (node.type === 'dotEvaluated') {
                 const indexOfNode = parentNodeChildren.indexOf(node);
 
                 // If the evaluated block are the first children, we need to append it before the function definition
@@ -1091,23 +1063,27 @@ export class DotJsAst {
                 const restAsTransformedString = restAsTextNode.value?.trim() !== '' ? getValue(restAsTextNode) : '';
 
                 if (cleanAttributeName && value?.trim() !== '') {
-                    return `${
-                        prefixOutOfAttributeName ? `${prefixOutOfAttributeName}\`, ` : ''
-                    }"${cleanAttributeName}": "${value?.trim()}", ${restAsTransformedString}`;
-                } else if (cleanAttributeName && value?.trim() === '' && rest.length > 0) {
+                    return `${prefixOutOfAttributeName ? `${prefixOutOfAttributeName}\`, ` : ''}"${cleanAttributeName}": "${value?.trim()}", ${restAsTransformedString}`;
+                }
+                if (cleanAttributeName && value?.trim() === '' && rest.length > 0) {
                     return `"${cleanAttributeName}": \``;
-                } else if (cleanAttributeName && value?.trim() === '' && rest.length === 0) {
+                }
+                if (cleanAttributeName && value?.trim() === '' && rest.length === 0) {
                     return cleanAttributeName;
-                } else if (node.value.trim().endsWith(';') && node.value.trim() !== ';') {
+                }
+                if (node.value.trim().endsWith(';') && node.value.trim() !== ';') {
                     return `${node.value.trim().slice(0, -1)}\`,`;
-                } else if (node.value.trim().endsWith(';') && node.value.trim() === ';' && !node.value.includes(':')) {
+                }
+                if (node.value.trim().endsWith(';') && node.value.trim() === ';' && !node.value.includes(':')) {
                     return `${node.value.trim().slice(0, -1)}\`,`;
-                } else if (node.value.trim() === '' || node.value.trim() === ';') {
+                }
+                if (node.value.trim() === '' || node.value.trim() === ';') {
                     return ' ';
                 }
 
                 throw new Error(`Invalid style attribute: ${JSON.stringify(node)}`);
-            } else if (node.type === 'dotConditional') {
+            }
+            if (node.type === 'dotConditional') {
                 const childrenNodesAsString = node.children.map((child) => getValue(child, node)).join('');
                 const alternateNodesAsString = node.alternate ? `${node.alternate.map((child) => getValue(child, node)).join('')}` : '';
 
@@ -1120,10 +1096,8 @@ export class DotJsAst {
                     const previousNode = currentNodeIndexInParent > 0 ? styleNode.children[currentNodeIndexInParent - 1] : null;
 
                     const previousNodeComputedValue = previousNode ? getValue(previousNode) : null;
-                    if (previousNodeComputedValue && previousNodeComputedValue.endsWith(': `')) {
-                        return `\${${node.test} ? \`${childrenNodesAsString}\` : ${
-                            alternateNodesAsString ? `\`${alternateNodesAsString}\`` : 'undefined'
-                        }}`;
+                    if (previousNodeComputedValue?.endsWith(': `')) {
+                        return `\${${node.test} ? \`${childrenNodesAsString}\` : ${alternateNodesAsString ? `\`${alternateNodesAsString}\`` : 'undefined'}}`;
                     }
 
                     const childrenNodesAreDotConditional = node.children.every((child) => child.type === 'dotConditional');
@@ -1132,28 +1106,21 @@ export class DotJsAst {
 
                     const childrenNodeExpression = childrenNodesAreDotConditional ? childrenNodesAsString : `{ ${childrenNodesAsString} }`;
 
-                    const alternateNodeExpression = alternateNodesAreDotConditional
-                        ? alternateNodesAsString
-                        : `{ ${alternateNodesAsString} }`;
+                    const alternateNodeExpression = alternateNodesAreDotConditional ? alternateNodesAsString : `{ ${alternateNodesAsString} }`;
 
                     return `...(${node.test} ? ${childrenNodeExpression} : ${alternateNodeExpression}),`;
-                } else if (parentNode.type === 'dotConditional') {
-                    if (
-                        node.type === 'dotConditional' &&
-                        node.children.every((child) => child.type === 'text' && !child.value.includes('{') && child.value.includes(':'))
-                    ) {
-                        return `(${node.test} ? {${childrenNodesAsString}} : ${
-                            alternateNodesAsString ? `{${alternateNodesAsString}}` : 'undefined'
-                        })`;
+                }
+                if (parentNode.type === 'dotConditional') {
+                    if (node.type === 'dotConditional' && node.children.every((child) => child.type === 'text' && !child.value.includes('{') && child.value.includes(':'))) {
+                        return `(${node.test} ? {${childrenNodesAsString}} : ${alternateNodesAsString ? `{${alternateNodesAsString}}` : 'undefined'})`;
                     }
 
-                    return `\${${node.test} ? \`${childrenNodesAsString}\` : ${
-                        alternateNodesAsString ? `\`${alternateNodesAsString}\`` : 'undefined'
-                    }}`;
+                    return `\${${node.test} ? \`${childrenNodesAsString}\` : ${alternateNodesAsString ? `\`${alternateNodesAsString}\`` : 'undefined'}}`;
                 }
 
                 return `...(${node.test} ? { ${childrenNodesAsString} } : {${alternateNodesAsString}}),`;
-            } else if (node.type === 'dotInterpolated' || node.type === 'dotEncoded' || node.type === 'dotEvaluated') {
+            }
+            if (node.type === 'dotInterpolated' || node.type === 'dotEncoded' || node.type === 'dotEvaluated') {
                 if (styleNode.children.at(-1) === node) {
                     return `\${${node.value}}\`,`;
                 }
