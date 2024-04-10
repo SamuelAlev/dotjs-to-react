@@ -2,106 +2,100 @@ name: Continuous Deployment
 
 # Ensures that only one workflow per branch will run at a time.
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
-    pull_request:
-        branches:
-            - main
-
-env:
-    NODE_VERSION: 20
+  pull_request:
+    branches:
+      - main
 
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
+  format:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
-        steps:
-            - name: Checkout default branch
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
 
-            - name: Use pnpm
-              uses: pnpm/action-setup@v3.0.0
-              with:
-                  version: latest
-                  run_install: false
+      - name: Use pnpm
+        uses: pnpm/action-setup@v3.0.0
+        with:
+          run_install: false
 
-            - name: Use Node ${{ env.NODE_VERSION }}
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-                  cache: 'pnpm'
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-            - name: Lint code
-              run: pnpm lint
+      - name: Format code
+        run: pnpm format
 
-    test-unit:
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
+  test-unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
-        steps:
-            - name: Checkout default branch
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
 
-            - name: Use pnpm
-              uses: pnpm/action-setup@v3.0.0
-              with:
-                  version: latest
-                  run_install: false
+      - name: Use pnpm
+        uses: pnpm/action-setup@v3.0.0
+        with:
+          run_install: false
 
-            - name: Use Node ${{ env.NODE_VERSION }}
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-                  cache: 'pnpm'
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-            - name: Test code
-              run: pnpm test:unit
+      - name: Test code
+        run: pnpm test:unit
 
-    test-integration:
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
+  test-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
-        steps:
-            - name: Checkout default branch
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
 
-            - name: Use pnpm
-              uses: pnpm/action-setup@v3.0.0
-              with:
-                  version: latest
-                  run_install: false
+      - name: Use pnpm
+        uses: pnpm/action-setup@v3.0.0
+        with:
+          run_install: false
 
-            - name: Use Node ${{ env.NODE_VERSION }}
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-                  cache: 'pnpm'
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-            - name: Install Playwright Browsers
-              run: pnpm exec playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
 
-            - name: Build app
-              run: pnpm build
+      - name: Build app
+        run: pnpm build
 
-            - name: Test integration
-              run: pnpm test:integration
+      - name: Test integration
+        run: pnpm test:integration
 
-            - name: Upload reports
-              uses: actions/upload-artifact@v4
-              if: always()
-              with:
-                  name: playwright-report
-                  path: playwright-report/
-                  retention-days: 30
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

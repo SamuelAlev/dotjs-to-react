@@ -68,8 +68,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should parse a template with attributes', () => {
-            const template =
-                '<div class=" foo bar class_name class-name tw-flex tw-h-[41px]" for="myId"><div><span data-test-id="a-span"></span></div></div>';
+            const template = '<div class=" foo bar class_name class-name tw-flex tw-h-[41px]" for="myId"><div><span data-test-id="a-span"></span></div></div>';
 
             expect(DotJsAst.parse(template)).toEqual({
                 type: 'root',
@@ -793,8 +792,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should parse a template with dot conditional (if/elseif/else) surrounding the attributes', () => {
-            const template =
-                '<div {{? it.areYouSure}}data-answer="yes"{{?? it.areYouExtremelySure}}data-answer="YES"{{??}}data-answer="nah"{{?}}>Text</div>';
+            const template = '<div {{? it.areYouSure}}data-answer="yes"{{?? it.areYouExtremelySure}}data-answer="YES"{{??}}data-answer="nah"{{?}}>Text</div>';
 
             expect(DotJsAst.parse(template)).toEqual({
                 type: 'root',
@@ -884,9 +882,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert multiple empty tags at root and add fragment', () => {
-            expect(DotJsAst.toJsxString('<div></div><span></span>')).toBe(
-                'export default function tpl(it: any) {\n    return <><div></div><span></span></>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<div></div><span></span>')).toBe('export default function tpl(it: any) {\n    return <><div></div><span></span></>;\n}');
         });
 
         it('should convert multiple tags at root with one child', () => {
@@ -899,9 +895,7 @@ describe('DotJsAstParser', () => {
                         <span>Content2</span>
                     </div>
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return <><div><span>Content1</span></div><div><span>Content2</span></div></>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return <><div><span>Content1</span></div><div><span>Content2</span></div></>;\n}');
         });
 
         it('should convert multiple tags at root with multiple children', () => {
@@ -922,15 +916,11 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert one encoding', () => {
-            expect(DotJsAst.toJsxString('<span>{{! it.content }}</span>')).toBe(
-                'export default function tpl(it: any) {\n    return <span>{it.content}</span>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<span>{{! it.content }}</span>')).toBe('export default function tpl(it: any) {\n    return <span>{it.content}</span>;\n}');
         });
 
         it('should convert one encoding with nested object', () => {
-            expect(DotJsAst.toJsxString('<span>{{! it.foo.bar.content }}</span>')).toBe(
-                'export default function tpl(it: any) {\n    return <span>{it.foo.bar.content}</span>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<span>{{! it.foo.bar.content }}</span>')).toBe('export default function tpl(it: any) {\n    return <span>{it.foo.bar.content}</span>;\n}');
         });
 
         it('should convert multiple encoding', () => {
@@ -990,9 +980,7 @@ describe('DotJsAstParser', () => {
                     <span>{{! it.content }}</span>
                     {{?}}
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return it.showContent && it.showContent2 ? <span>{it.content}</span> : null;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return it.showContent && it.showContent2 ? <span>{it.content}</span> : null;\n}');
         });
 
         it('should convert simple if with double condition as a child', () => {
@@ -1004,9 +992,7 @@ describe('DotJsAstParser', () => {
                     {{?}}
                     </div>
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return <div>{it.showContent && it.showContent2 ? <span>{it.content}</span> : null}</div>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return <div>{it.showContent && it.showContent2 ? <span>{it.content}</span> : null}</div>;\n}');
         });
 
         it('should convert if/else with simple condition at root', () => {
@@ -1018,9 +1004,7 @@ describe('DotJsAstParser', () => {
                     <span>{{! it.noContent }}</span>
                     {{?}}
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return it.showContent ? <span>{it.content}</span> : <span>{it.noContent}</span>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return it.showContent ? <span>{it.content}</span> : <span>{it.noContent}</span>;\n}');
         });
 
         it('should convert if/else with simple condition as a child', () => {
@@ -1034,9 +1018,7 @@ describe('DotJsAstParser', () => {
                     {{?}}
                     </div>
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return <div>{it.showContent ? <span>{it.content}</span> : <span>{it.noContent}</span>}</div>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return <div>{it.showContent ? <span>{it.content}</span> : <span>{it.noContent}</span>}</div>;\n}');
         });
 
         it('should convert nested if/else with simple condition at root', () => {
@@ -1096,9 +1078,7 @@ describe('DotJsAstParser', () => {
                     <span>{{! it.noContent }}</span>
                     {{?}}
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return it.showContent && it.areYouSure ? <span>{it.content}</span> : <span>{it.noContent}</span>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return it.showContent && it.areYouSure ? <span>{it.content}</span> : <span>{it.noContent}</span>;\n}');
         });
 
         it('should convert if/else with double condition as a child', () => {
@@ -1112,9 +1092,7 @@ describe('DotJsAstParser', () => {
                     {{?}}
                     </div>
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return <div>{it.showContent && it.areYouSure ? <span>{it.content}</span> : <span>{it.noContent}</span>}</div>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return <div>{it.showContent && it.areYouSure ? <span>{it.content}</span> : <span>{it.noContent}</span>}</div>;\n}');
         });
 
         it('should convert if/elseif with simple condition at root', () => {
@@ -1126,9 +1104,7 @@ describe('DotJsAstParser', () => {
                     <span>{{! it.content2 }}</span>
                     {{?}}
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return it.showContent ? <span>{it.content}</span> : it.showContent2 ? <span>{it.content2}</span> : null;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return it.showContent ? <span>{it.content}</span> : it.showContent2 ? <span>{it.content2}</span> : null;\n}');
         });
 
         it('should convert if/elseif with simple condition as a child', () => {
@@ -1309,9 +1285,7 @@ describe('DotJsAstParser', () => {
                         {{~}}
                     </ul>
                 `),
-            ).toBe(
-                'export default function tpl(it: any) {\n    return <ul>{it.items?.map((item, index) => (<li>{item}{index}</li>))}</ul>;\n}',
-            );
+            ).toBe('export default function tpl(it: any) {\n    return <ul>{it.items?.map((item, index) => (<li>{item}{index}</li>))}</ul>;\n}');
         });
 
         it('should convert loops with dot interpolate inside', () => {
@@ -1329,9 +1303,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with `data-` attribute', () => {
-            expect(DotJsAst.toJsxString('<div data-test-id="foo"></div>')).toBe(
-                'export default function tpl(it: any) {\n    return <div data-test-id="foo"></div>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<div data-test-id="foo"></div>')).toBe('export default function tpl(it: any) {\n    return <div data-test-id="foo"></div>;\n}');
         });
 
         it('should convert tag containing attributes without values', () => {
@@ -1365,11 +1337,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with multiple conditional and variable `data-` attributes', () => {
-            expect(
-                DotJsAst.toJsxString(
-                    '<div {{? it.enabled }}data-test-id-first="{{! it.dataTestIdFirst }}" data-test-id-second="{{! it.dataTestIdSecond }}"{{?}}></div>',
-                ),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div {{? it.enabled }}data-test-id-first="{{! it.dataTestIdFirst }}" data-test-id-second="{{! it.dataTestIdSecond }}"{{?}}></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div {...(it.enabled ? {"data-test-id-first": it.dataTestIdFirst, "data-test-id-second": it.dataTestIdSecond} : {})}></div>;\n}',
             );
         });
@@ -1383,9 +1351,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with single encoded `data-` attribute', () => {
-            expect(DotJsAst.toJsxString('<div data-abc="{{! it.foo }}"></div>')).toBe(
-                'export default function tpl(it: any) {\n    return <div data-abc={it.foo}></div>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<div data-abc="{{! it.foo }}"></div>')).toBe('export default function tpl(it: any) {\n    return <div data-abc={it.foo}></div>;\n}');
         });
 
         it('should convert tag with multiple encoded `data-` attribute', () => {
@@ -1395,9 +1361,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with `class` attribute', () => {
-            expect(DotJsAst.toJsxString('<div class="foo"></div>')).toBe(
-                'export default function tpl(it: any) {\n    return <div className="foo"></div>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<div class="foo"></div>')).toBe('export default function tpl(it: any) {\n    return <div className="foo"></div>;\n}');
         });
 
         it('should convert tag with variable `class` attribute', () => {
@@ -1419,9 +1383,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with if/else conditional variable in `class` attribute', () => {
-            expect(
-                DotJsAst.toJsxString('<div class="custom1 {{? it.maybe}} hehehe {{?? it.forsure }} hallo {{??}}byebye{{?}}"></div>'),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div class="custom1 {{? it.maybe}} hehehe {{?? it.forsure }} hallo {{??}}byebye{{?}}"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div className={`custom1 ${it.maybe ? ` hehehe ` : `${it.forsure ? ` hallo ` : `byebye`}`}`}></div>;\n}',
             );
         });
@@ -1433,9 +1395,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with single `style` attribute', () => {
-            expect(DotJsAst.toJsxString('<div style="color: red;"></div>')).toBe(
-                'export default function tpl(it: any) {\n    return <div style={{"color":"red"}}></div>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<div style="color: red;"></div>')).toBe('export default function tpl(it: any) {\n    return <div style={{"color":"red"}}></div>;\n}');
         });
 
         it('should convert tag with single `style` attribute containing dot encoded and spaced', () => {
@@ -1475,29 +1435,19 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with `style` attribute with nested dot conditional (surrounding and in)', () => {
-            expect(
-                DotJsAst.toJsxString('<div style="{{? it.enabled}}color: {{? it.green }}green{{??}}{{! it.color }}{{?}};{{?}}"></div>'),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div style="{{? it.enabled}}color: {{? it.green }}green{{??}}{{! it.color }}{{?}};{{?}}"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div style={{ ...(it.enabled ? { "color": `${it.green ? `green` : `${it.color}`}`, } : {  }), }}></div>;\n}',
             );
         });
 
         it('should convert tag with `style` attribute with nested dot conditional (both surrounding)', () => {
-            expect(
-                DotJsAst.toJsxString(
-                    '<div style="{{? it.enabled}}{{? it.green }}color: green;{{??}}color: {{! it.color }}; {{?}}{{??}}color: transparent;{{?}};"></div>',
-                ),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div style="{{? it.enabled}}{{? it.green }}color: green;{{??}}color: {{! it.color }}; {{?}}{{??}}color: transparent;{{?}};"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div style={{ ...(it.enabled ? (it.green ? {"color": "green", } : {"color": `${it.color}`,}) : { "color": "transparent",  }) }}></div>;\n}',
             );
         });
 
         it('should convert tag with `style` attribute with nested dot conditional (both in)', () => {
-            expect(
-                DotJsAst.toJsxString(
-                    '<div style="color: {{? it.enabled}}{{? it.green }}green{{??}}{{! it.color }}{{?}}{{??}}transparent{{?}};"></div>',
-                ),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div style="color: {{? it.enabled}}{{? it.green }}green{{??}}{{! it.color }}{{?}}{{??}}transparent{{?}};"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div style={{ "color": `${it.enabled ? `${it.green ? `green` : `${it.color}`}` : `transparent`}`, }}></div>;\n}',
             );
         });
@@ -1513,17 +1463,13 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with multiple `style` attribute', () => {
-            expect(
-                DotJsAst.toJsxString('<div style="color: red; background-color: green; font-size: var(--foo);display:none;"></div>'),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div style="color: red; background-color: green; font-size: var(--foo);display:none;"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div style={{"color":"red","backgroundColor":"green","fontSize":"var(--foo)","display":"none"}}></div>;\n}',
             );
         });
 
         it('should convert tag with not so valid `style` attribute', () => {
-            expect(DotJsAst.toJsxString('<div style="color: red"></div>')).toBe(
-                'export default function tpl(it: any) {\n    return <div style={{"color":"red"}}></div>;\n}',
-            );
+            expect(DotJsAst.toJsxString('<div style="color: red"></div>')).toBe('export default function tpl(it: any) {\n    return <div style={{"color":"red"}}></div>;\n}');
         });
 
         it('should convert tag with `style` attribute and variable', () => {
@@ -1551,21 +1497,13 @@ describe('DotJsAstParser', () => {
         });
 
         it('should convert tag with `style` attribute and conditional variable with other content', () => {
-            expect(
-                DotJsAst.toJsxString(
-                    '<div style="{{? it.padding }}padding: {{! it.padding}}px; margin: 0; color: {{! it.color}};{{?}}"></div>',
-                ),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div style="{{? it.padding }}padding: {{! it.padding}}px; margin: 0; color: {{! it.color}};{{?}}"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div style={{ ...(it.padding ? { "padding": `${it.padding}px`, "margin": "0", "color": `${it.color}`, } : {  }), }}></div>;\n}',
             );
         });
 
         it('should convert tag with `style` attribute and if/else conditional variable with other content', () => {
-            expect(
-                DotJsAst.toJsxString(
-                    '<div style="{{? it.padding }}padding: {{! it.padding}}px; margin: 0;{{??}}padding: 0px; margin: 0;{{?}}"></div>',
-                ),
-            ).toBe(
+            expect(DotJsAst.toJsxString('<div style="{{? it.padding }}padding: {{! it.padding}}px; margin: 0;{{??}}padding: 0px; margin: 0;{{?}}"></div>')).toBe(
                 'export default function tpl(it: any) {\n    return <div style={{ ...(it.padding ? { "padding": `${it.padding}px`, "margin": "0",  } : { "padding": "0px", "margin": "0",  }), }}></div>;\n}',
             );
         });
@@ -1577,9 +1515,7 @@ describe('DotJsAstParser', () => {
         });
 
         it('should evaluate correctly the content with if statements inside', () => {
-            expect(
-                DotJsAst.toJsxString('{{ let data = "data"; if(true) { data += "1"; if(true) {data += "2"; } } }}<div>{{! data }}</div>'),
-            ).toBe(
+            expect(DotJsAst.toJsxString('{{ let data = "data"; if(true) { data += "1"; if(true) {data += "2"; } } }}<div>{{! data }}</div>')).toBe(
                 'export default function tpl(it: any) {\n    let data = "data"; if(true) { data += "1"; if(true) {data += "2"; } }\n\nreturn <><div>{data}</div></>;\n}',
             );
         });
