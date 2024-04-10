@@ -25,6 +25,7 @@ jobs:
       - name: Use pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
+          version: latest
           run_install: false
 
       - name: Use Node
@@ -108,7 +109,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: [lint, test-unit, test-integration]
+    needs: [format, test-unit, test-integration]
 
     steps:
       - name: Checkout default branch

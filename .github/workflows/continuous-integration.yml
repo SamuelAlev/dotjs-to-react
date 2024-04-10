@@ -22,6 +22,7 @@ jobs:
       - name: Use pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
+          version: latest
           run_install: false
 
       - name: Use Node
@@ -47,6 +48,7 @@ jobs:
       - name: Use pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
+          version: latest
           run_install: false
 
       - name: Use Node
@@ -72,6 +74,7 @@ jobs:
       - name: Use pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
+          version: latest
           run_install: false
 
       - name: Use Node
