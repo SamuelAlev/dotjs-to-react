@@ -13,28 +13,28 @@
         "preview": "vite preview --port 4173"
     },
     "dependencies": {
-        "@fontsource/manrope": "^5.0.18",
+        "@fontsource/manrope": "^5.0.20",
         "@uiw/react-split": "^5.9.3",
-        "lucide-react": "^0.368.0",
+        "lucide-react": "^0.376.0",
         "prettier": "^3.2.5",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react18-json-view": "^0.2.7",
-        "shikiji": "^0.10.0"
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react18-json-view": "^0.2.8",
+        "shikiji": "^0.10.2"
     },
     "devDependencies": {
-        "@babel/parser": "^7.23.6",
-        "@babel/runtime": "^7.23.8",
-        "@biomejs/biome": "^1.6.4",
-        "@playwright/test": "^1.41.1",
-        "@types/node": "^20.11.5",
-        "@types/react": "^18.2.48",
-        "@types/react-dom": "^18.2.18",
-        "@vitejs/plugin-react-swc": "^3.5.0",
-        "autoprefixer": "^10.4.17",
-        "tailwindcss": "^3.4.1",
-        "typescript": "^5.3.3",
-        "vite": "^5.0.12",
-        "vitest": "^1.2.1"
+        "@babel/parser": "^7.24.5",
+        "@babel/runtime": "^7.24.5",
+        "@biomejs/biome": "^1.7.2",
+        "@playwright/test": "^1.43.1",
+        "@types/node": "^20.12.7",
+        "@types/react": "^18.3.1",
+        "@types/react-dom": "^18.3.0",
+        "@vitejs/plugin-react-swc": "^3.6.0",
+        "autoprefixer": "^10.4.19",
+        "tailwindcss": "^3.4.3",
+        "typescript": "^5.4.5",
+        "vite": "^5.2.10",
+        "vitest": "^1.5.3"
     }
 }
