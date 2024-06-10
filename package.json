@@ -15,7 +15,7 @@
     "dependencies": {
         "@fontsource/manrope": "^5.0.20",
         "@uiw/react-split": "^5.9.3",
-        "lucide-react": "^0.390.0",
+        "lucide-react": "^0.391.0",
         "prettier": "^3.2.5",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
