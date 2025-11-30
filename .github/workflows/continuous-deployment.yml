@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout default branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Use pnpm
         uses: pnpm/action-setup@v4.2.0
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Checkout default branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Use pnpm
         uses: pnpm/action-setup@v4.2.0
@@ -72,7 +72,7 @@ jobs:
 
     steps:
       - name: Checkout default branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Use pnpm
         uses: pnpm/action-setup@v4.2.0
@@ -99,7 +99,7 @@ jobs:
         run: pnpm test:integration
 
       - name: Upload reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: playwright-report
@@ -113,7 +113,7 @@ jobs:
 
     steps:
       - name: Checkout default branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Use pnpm
         uses: pnpm/action-setup@v4.2.0
