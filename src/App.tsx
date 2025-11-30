@@ -80,7 +80,7 @@ export const App = () => {
 			<Split className="h-full overflow-auto">
 				<div className="relative flex w-[40%] overflow-auto">
 					<textarea
-						className="flex w-full p-4 font-mono focus-within:outline-none"
+						className="flex w-full p-4 font-mono focus-within:outline-hidden"
 						placeholder="Enter the doT code"
 						defaultValue={content}
 						data-testid="dotjs-input"
@@ -114,7 +114,7 @@ export const App = () => {
 						/>
 					) : (
 						<textarea
-							className="flex h-[50%] w-full overflow-auto p-4 font-mono focus-within:outline-none"
+							className="flex h-[50%] w-full overflow-auto p-4 font-mono focus-within:outline-hidden"
 							placeholder="TSX output"
 							readOnly
 						/>
