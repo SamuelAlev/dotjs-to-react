@@ -96,7 +96,7 @@ jobs:
         run: pnpm test:integration
 
       - name: Upload reports
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: playwright-report
