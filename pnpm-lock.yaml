@@ -13,22 +13,22 @@ importers:
         version: 5.2.8
       '@uiw/react-split':
         specifier: ^5.9.3
-        version: 5.9.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 5.9.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       lucide-react:
         specifier: ^0.563.0
-        version: 0.563.0(react@19.2.3)
+        version: 0.563.0(react@19.2.4)
       prettier:
         specifier: ^3.7.3
         version: 3.8.1
       react:
         specifier: ^19.2.0
-        version: 19.2.3
+        version: 19.2.4
       react-dom:
         specifier: ^19.2.0
-        version: 19.2.3(react@19.2.3)
+        version: 19.2.4(react@19.2.4)
       react18-json-view:
         specifier: ^0.2.9
-        version: 0.2.9(react@19.2.3)
+        version: 0.2.9(react@19.2.4)
       shikiji:
         specifier: ^0.10.2
         version: 0.10.2
@@ -895,18 +895,18 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  react-dom@19.2.3:
-    resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
+  react-dom@19.2.4:
+    resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
-      react: ^19.2.3
+      react: ^19.2.4
 
   react18-json-view@0.2.9:
     resolution: {integrity: sha512-z3JQgCwZRKbmWh54U94loCU6vE0ZoDBK7C8ZpcMYQB8jYMi+mR/fcgMI9jKgATeF0I6+OAF025PD+UKkXIqueQ==}
     peerDependencies:
       react: '>=16.8.0'
 
-  react@19.2.3:
-    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
+  react@19.2.4:
+    resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
     engines: {node: '>=0.10.0'}
 
   rollup@4.55.1:
@@ -1433,10 +1433,10 @@ snapshots:
     dependencies:
       csstype: 3.2.3
 
-  '@uiw/react-split@5.9.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@uiw/react-split@5.9.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
   '@vitejs/plugin-react-swc@4.2.2(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.5.0))':
     dependencies:
@@ -1602,9 +1602,9 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.30.2
       lightningcss-win32-x64-msvc: 1.30.2
 
-  lucide-react@0.563.0(react@19.2.3):
+  lucide-react@0.563.0(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   magic-string@0.30.21:
     dependencies:
@@ -1636,17 +1636,17 @@ snapshots:
 
   prettier@3.8.1: {}
 
-  react-dom@19.2.3(react@19.2.3):
+  react-dom@19.2.4(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
       scheduler: 0.27.0
 
-  react18-json-view@0.2.9(react@19.2.3):
+  react18-json-view@0.2.9(react@19.2.4):
     dependencies:
       copy-to-clipboard: 3.3.3
-      react: 19.2.3
+      react: 19.2.4
 
-  react@19.2.3: {}
+  react@19.2.4: {}
 
   rollup@4.55.1:
     dependencies:
